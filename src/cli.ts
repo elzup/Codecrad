@@ -1,7 +1,5 @@
-#!/usr/bin/env node
-'use strict'
-const meow = require('meow')
-const codecrad = require('.')
+import * as meow from 'meow'
+import codecrad from '.'
 
 const cli = meow(`
 	Usage
@@ -17,4 +15,4 @@ const cli = meow(`
 	  ponies & rainbows
 `)
 
-console.log(codecrad(cli.input[0] || 'unicorns'))
+codecrad()

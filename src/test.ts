@@ -1,4 +1,3 @@
-// @flow
 const m = require('.')
 
 test('snapshot', () => {
