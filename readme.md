@@ -1,4 +1,4 @@
-# codecrad
+# Codecrad
 
 コーディング速度を競う
 
