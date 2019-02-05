@@ -1,9 +1,12 @@
 import { h, Color, Component, Fragment, StatelessComponent } from 'ink'
-import { Change, diffChars, diffLines, convertChangesToDMP } from 'diff'
+import { Change, diffLines } from 'diff'
+import * as chokidar from 'chokidar'
+
 import * as fs from 'fs-extra'
 import chalk from 'chalk'
 import { read } from '../utils'
-import { stages } from '../config'
+import { paths } from '../config'
+const { worldGameFile, worldOkFile, worldPath } = paths
 
 type Props = {
   stage: string
@@ -16,6 +19,7 @@ type GameState =
       process: 'play'
       gameText: string
       okText: string
+      diffs: Change[]
     }
   | {
       process: 'finish'
@@ -27,6 +31,7 @@ type State = {
 
 class App extends Component<Props, State> {
   timer = null as ReturnType<typeof setInterval> | null
+  watcher = null as chokidar.FSWatcher | null
   state = {
     i: 0,
     game: {
@@ -36,51 +41,73 @@ class App extends Component<Props, State> {
 
   componentDidMount() {
     this.initialize()
-    this.timer = setInterval(() => {
-      this.setState({
-        i: this.state.i + 1,
-      })
-    }, 100)
+    // this.timer = setInterval(() => {
+    //   this.setState({
+    //     i: this.state.i + 1,
+    //   })
+    // }, 100)
   }
   async initialize() {
     const { stage } = this.props
-    await fs.copy(stage, './')
-    const gameText = read(stages.game(stage))
-    const okText = read(stages.ok(stage))
+    const sourceStagePath = paths.stages.root + '/' + stage
+    fs.removeSync(worldPath)
+    fs.copySync(sourceStagePath, worldPath)
+    const gameText = read(worldGameFile)
+    const okText = read(worldOkFile)
+    const diffs = diffLines(gameText, okText)
     this.setState({
-      game: { process: 'play', gameText, okText },
+      game: { process: 'play', gameText, okText, diffs },
+    })
+    this.watcher = chokidar.watch(worldGameFile, { persistent: true })
+    console.log('hello')
+    this.watcher.on('all', (event, path) => {
+      console.log({ event, path })
+      const gameText = read(worldGameFile)
+      const diffs = diffLines(gameText, okText)
+      this.setState({
+        game: { process: 'play', gameText, okText, diffs },
+      })
     })
   }
 
   componentWillUnmount() {
     clearInterval(this.timer!)
+    if (this.watcher) {
+      this.watcher.close()
+    }
   }
 
   render() {
     const { game } = this.state
-    if (game.process === 'init') {
-      return (
-        <Fragment>
-          <Color green>{this.state.i}</Color>
-          <Color green>loading ...</Color>
-        </Fragment>
-      )
-    } else if (game.process === 'play') {
-      const { gameText, okText } = game
-      const diffs = diffLines(gameText, okText)
-      return (
-        <Fragment>
-          <Color green>{this.state.i}</Color>
-          <DiffView changes={diffs} />
-        </Fragment>
-      )
-    } else {
-      return (
-        <Fragment>
-          <Color green>{this.state.i}</Color>
-          <Color green>Finish!! GG</Color>
-        </Fragment>
-      )
+    switch (game.process) {
+      case 'init':
+        return (
+          <Fragment>
+            <div>
+              <Color white>{this.state.i}</Color>
+            </div>
+            <Color green>loading ...</Color>
+          </Fragment>
+        )
+      case 'play':
+        const { diffs } = game
+        return (
+          <Fragment>
+            <div>
+              <Color white>{this.state.i}</Color>
+            </div>
+            <DiffView changes={diffs} />
+          </Fragment>
+        )
+      case 'finish':
+        return (
+          <Fragment>
+            <div>
+              <Color white>{this.state.i}</Color>
+            </div>
+            <Color green>Finish!! GG</Color>
+          </Fragment>
+        )
     }
   }
 }
