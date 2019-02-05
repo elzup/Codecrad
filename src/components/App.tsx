@@ -23,9 +23,10 @@ type GameState =
     }
   | {
       process: 'finish'
+      time: number
     }
 type State = {
-  i: number
+  hs: number
   game: GameState
 }
 
@@ -33,7 +34,7 @@ class App extends Component<Props, State> {
   timer = null as ReturnType<typeof setInterval> | null
   watcher = null as chokidar.FSWatcher | null
   state = {
-    i: 0,
+    hs: 0,
     game: {
       process: 'init',
     } as GameState,
@@ -41,11 +42,6 @@ class App extends Component<Props, State> {
 
   componentDidMount() {
     this.initialize()
-    // this.timer = setInterval(() => {
-    //   this.setState({
-    //     i: this.state.i + 1,
-    //   })
-    // }, 100)
   }
   async initialize() {
     const { stage } = this.props
@@ -58,15 +54,28 @@ class App extends Component<Props, State> {
     this.setState({
       game: { process: 'play', gameText, okText, diffs },
     })
+
+    this.timer = setInterval(() => {
+      this.setState({
+        hs: this.state.hs + 1,
+      })
+    }, 10)
     this.watcher = chokidar.watch(worldGameFile, { persistent: true })
     console.log('hello')
     this.watcher.on('all', (event, path) => {
       console.log({ event, path })
       const gameText = read(worldGameFile)
       const diffs = diffLines(gameText, okText)
-      this.setState({
-        game: { process: 'play', gameText, okText, diffs },
-      })
+      if (diffs.length > 1) {
+        this.setState({
+          game: { process: 'play', gameText, okText, diffs },
+        })
+      } else {
+        clearInterval(this.timer!)
+        this.setState({
+          game: { process: 'finish', time: this.state.hs },
+        })
+      }
     })
   }
 
@@ -83,9 +92,6 @@ class App extends Component<Props, State> {
       case 'init':
         return (
           <Fragment>
-            <div>
-              <Color white>{this.state.i}</Color>
-            </div>
             <Color green>loading ...</Color>
           </Fragment>
         )
@@ -94,7 +100,7 @@ class App extends Component<Props, State> {
         return (
           <Fragment>
             <div>
-              <Color white>{this.state.i}</Color>
+              <Color white>{this.state.hs}</Color>
             </div>
             <DiffView changes={diffs} />
           </Fragment>
@@ -102,14 +108,17 @@ class App extends Component<Props, State> {
       case 'finish':
         return (
           <Fragment>
-            <div>
-              <Color white>{this.state.i}</Color>
-            </div>
-            <Color green>Finish!! GG</Color>
+            <Color white>Finish!!</Color>
+            <Color green>Time: {toSecondTime(game.time)}</Color>
+            <Color white>GG</Color>
           </Fragment>
         )
     }
   }
+}
+
+const toSecondTime = (hs: number): string => {
+  return `${Math.floor(hs / 100)}.${hs % 100}`
 }
 
 const DiffView: StatelessComponent<{ changes: Change[] }> = props => {
