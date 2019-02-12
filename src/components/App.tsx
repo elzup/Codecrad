@@ -3,7 +3,6 @@ import { Change, diffLines } from 'diff'
 import * as chokidar from 'chokidar'
 
 import * as fs from 'fs-extra'
-import chalk from 'chalk'
 import { read } from '../utils'
 import { paths } from '../config'
 const { worldGameFile, worldOkFile, worldPath } = paths
@@ -17,6 +16,7 @@ type GameState =
     }
   | {
       process: 'play'
+      startTime: number
       gameText: string
       okText: string
       diffs: Change[]
@@ -26,7 +26,6 @@ type GameState =
       time: number
     }
 type State = {
-  hs: number
   game: GameState
 }
 
@@ -34,7 +33,6 @@ class App extends Component<Props, State> {
   timer = null as ReturnType<typeof setInterval> | null
   watcher = null as chokidar.FSWatcher | null
   state = {
-    hs: 0,
     game: {
       process: 'init',
     } as GameState,
@@ -52,28 +50,26 @@ class App extends Component<Props, State> {
     const okText = read(worldOkFile)
     const diffs = diffLines(gameText, okText)
     this.setState({
-      game: { process: 'play', gameText, okText, diffs },
+      game: { process: 'play', startTime: Date.now(), gameText, okText, diffs },
     })
 
-    this.timer = setInterval(() => {
-      this.setState({
-        hs: this.state.hs + 1,
-      })
-    }, 10)
     this.watcher = chokidar.watch(worldGameFile, { persistent: true })
-    console.log('hello')
     this.watcher.on('all', (event, path) => {
-      console.log({ event, path })
+      const { game } = this.state
+      if (game.process !== 'play') {
+        return
+      }
       const gameText = read(worldGameFile)
       const diffs = diffLines(gameText, okText)
       if (diffs.length > 1) {
         this.setState({
-          game: { process: 'play', gameText, okText, diffs },
+          game: { ...game, gameText, okText, diffs },
         })
       } else {
         clearInterval(this.timer!)
+        const time = Date.now() - game.startTime
         this.setState({
-          game: { process: 'finish', time: this.state.hs },
+          game: { process: 'finish', time },
         })
       }
     })
@@ -99,26 +95,32 @@ class App extends Component<Props, State> {
         const { diffs } = game
         return (
           <Fragment>
-            <div>
-              <Color white>{this.state.hs}</Color>
-            </div>
+            <div>--------------------</div>
+            <div>{worldGameFile}</div>
+            <div>--------------------</div>
             <DiffView changes={diffs} />
           </Fragment>
         )
       case 'finish':
         return (
           <Fragment>
-            <Color white>Finish!!</Color>
-            <Color green>Time: {toSecondTime(game.time)}</Color>
-            <Color white>GG</Color>
+            <div>
+              <Color white>Finish</Color>
+            </div>
+            <div>
+              <Color green>Time: {toSecondTime(game.time)}</Color>
+            </div>
+            <div>
+              <Color white>gg!</Color>
+            </div>
           </Fragment>
         )
     }
   }
 }
 
-const toSecondTime = (hs: number): string => {
-  return `${Math.floor(hs / 100)}.${hs % 100}`
+const toSecondTime = (time: number): string => {
+  return `${Math.floor(time / 1000)}.${time % 1000}`
 }
 
 const DiffView: StatelessComponent<{ changes: Change[] }> = props => {
@@ -132,17 +134,6 @@ const DiffView: StatelessComponent<{ changes: Change[] }> = props => {
       </Fragment>
     </div>
   )
-}
-
-export const printDiffText = (changes: Change[]) => {
-  changes.forEach(part => {
-    const color = part.added
-      ? chalk.green
-      : part.removed
-      ? chalk.red
-      : chalk.gray
-    process.stdout.write(color(part.value))
-  })
 }
 
 export default App
