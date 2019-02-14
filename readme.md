@@ -1,3 +1,6 @@
+![codecrad](https://user-images.githubusercontent.com/2284908/52775708-a5adf180-3083-11e9-8d17-1ee59850cc3f.gif)
+
+
 # Codecrad
 
 [![Build Status](https://travis-ci.org/elzup/codecrad.svg?branch=master)](https://travis-ci.org/elzup/codecrad)
@@ -8,9 +11,10 @@
 
 コーディング速度を競うゲームです。
 
-一人用タイムアタックゲーム(タイピングゲームのイメージ)。
-cli で起動したら diff が指定されて各自好きなエディタでコーディングする。
-チェッカーが差分監視して Time をだす。
+作業の準備体操から連想して作ったタイムアタックゲーム(タイピングゲームのイメージ)です。
+好きなエディタでコーディングしてください。
+チェッカーが差分監視して Time を計ってくれます。
+
 
 ### 推奨環境
 
@@ -22,6 +26,7 @@ cli で起動したら diff が指定されて各自好きなエディタでコ�
 
 ```
 npx codecrad
+open ./world/game.js # {Your favorite editor}
 ```
 
 ## development
@@ -29,39 +34,6 @@ npx codecrad
 - node
 - typescript
 
-## Install
-
-```
-$ npm install codecrad
-```
-
-## Usage
-
-```js
-const codecrad = require('codecrad')
-
-codecrad('unicorns')
-//=> 'unicorns & rainbows'
-```
-
-## API
-
-### `codecrad(input, [options])`
-
-#### input
-
-Type: `string`
-
-Lorem ipsum.
-
-#### options
-
-##### foo
-
-Type: `boolean`<br>
-Default: `false`
-
-Lorem ipsum.
 
 ## CLI
 
@@ -73,21 +45,15 @@ $ npm install --global codecrad
 $ codecrad --help
 
   Usage
-    codecrad [input]
+    codecrad
 
   Options
-    --foo  Lorem ipsum [Default: false]
-
-  Examples
-    $ codecrad
-    unicorns & rainbows
-    $ codecrad ponies
-    ponies & rainbows
+    --stage  TODO [Default: stage1]
 ```
 
 ## License
 
-MIT © [elzup](http://elzup.com)
+MIT © [anozon](https://anozon.me)
 
 ## Contributors
 
