@@ -1,7 +1,7 @@
 {
   "name": "codecrad",
   "version": "0.0.10",
-  "description": "Coding game RTA",
+  "description": "Coding game speedrun",
   "license": "MIT",
   "main": "dist/index.js",
   "repository": "elzup/codecrad",
