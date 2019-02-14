@@ -1,4 +1,6 @@
-import { h, render } from 'ink'
+import * as React from 'react'
+
+import { render } from 'ink'
 import App from './components/App'
 import { paths } from './config'
 

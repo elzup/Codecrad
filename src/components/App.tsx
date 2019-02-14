@@ -1,7 +1,8 @@
-import { h, Color, Component, Fragment, StatelessComponent } from 'ink'
+import * as React from 'react'
+
+import { Color, Fragment } from 'ink'
 import { Change, diffLines } from 'diff'
 import * as chokidar from 'chokidar'
-
 import * as fs from 'fs-extra'
 import { read } from '../utils'
 import { paths } from '../config'
@@ -29,7 +30,7 @@ type State = {
   game: GameState
 }
 
-class App extends Component<Props, State> {
+class App extends React.Component<Props, State> {
   timer = null as ReturnType<typeof setInterval> | null
   watcher = null as chokidar.FSWatcher | null
   state = {
@@ -86,24 +87,20 @@ class App extends Component<Props, State> {
     const { game } = this.state
     switch (game.process) {
       case 'init':
-        return (
-          <Fragment>
-            <Color green>loading ...</Color>
-          </Fragment>
-        )
+        return <Color green>loading ...</Color>
       case 'play':
         const { diffs } = game
         return (
-          <Fragment>
+          <div>
             <div>--------------------</div>
             <div>{worldGameFile}</div>
             <div>--------------------</div>
             <DiffView changes={diffs} />
-          </Fragment>
+          </div>
         )
       case 'finish':
         return (
-          <Fragment>
+          <div>
             <div>
               <Color white>Finish</Color>
             </div>
@@ -113,7 +110,7 @@ class App extends Component<Props, State> {
             <div>
               <Color white>gg!</Color>
             </div>
-          </Fragment>
+          </div>
         )
     }
   }
@@ -123,15 +120,19 @@ const toSecondTime = (time: number): string => {
   return `${Math.floor(time / 1000)}.${time % 1000}`
 }
 
-const DiffView: StatelessComponent<{ changes: Change[] }> = props => {
+const DiffView: React.SFC<{ changes: Change[] }> = props => {
   return (
     <div>
-      <Fragment>
-        {props.changes.map(change => {
+      <div>
+        {props.changes.map((change, i) => {
           const color = change.added ? 'green' : change.removed ? 'red' : 'gray'
-          return <Color keyword={color}>{change.value}</Color>
+          return (
+            <Color key={i} keyword={color}>
+              {change.value}
+            </Color>
+          )
         })}
-      </Fragment>
+      </div>
     </div>
   )
 }

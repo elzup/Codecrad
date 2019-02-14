@@ -4,10 +4,9 @@
     "module": "commonjs",
     "lib": ["es2017"],
     "jsx": "react",
-    "jsxFactory": "h",
     "strict": true,
     "importHelpers": false,
     "noEmitHelpers": true,
-    "typeRoots": ["src/@types"]
+    "typeRoots": ["src/@types", "node_modules/@types"]
   }
 }
