@@ -14,7 +14,7 @@
   },
   "scripts": {
     "cli": "ts-node src/cli.ts",
-    "build": "tsc && cp -r stages dist/",
+    "build": "tsc && cp -r src/stages dist/",
     "deploy": "npm run build && np",
     "add-contributor": "all-contributors add",
     "precommit": "lint-staged",
