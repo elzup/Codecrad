@@ -6,11 +6,23 @@
 
 > Coding game RTA
 
-コーディング速度を競う
+コーディング速度を競うゲームです。
 
 一人用タイムアタックゲーム(タイピングゲームのイメージ)。
 cli で起動したら diff が指定されて各自好きなエディタでコーディングする。
 チェッカーが差分監視して Time をだす。
+
+### 推奨環境
+
+- prettier: fix on Save
+- node: >=8
+- Terminal: 40 line
+
+## Let's Play!
+
+```
+npx codecrad
+```
 
 ## development
 
