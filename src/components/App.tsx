@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Color, Fragment } from 'ink'
+import { Color } from 'ink'
 import { Change, diffLines } from 'diff'
 import * as chokidar from 'chokidar'
 import * as fs from 'fs-extra'
@@ -44,9 +44,10 @@ class App extends React.Component<Props, State> {
   }
   async initialize() {
     const { stage } = this.props
-    const sourceStagePath = paths.stages.root + '/' + stage
+    const sourceStagePath = paths.stagesPath + '/' + stage
     fs.removeSync(worldPath)
     fs.copySync(sourceStagePath, worldPath)
+    fs.copySync(paths.prettierFile, worldPath + '/' + '.prettierrc')
     const gameText = read(worldGameFile)
     const okText = read(worldOkFile)
     const diffs = diffLines(gameText, okText)

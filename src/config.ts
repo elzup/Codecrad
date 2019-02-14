@@ -7,10 +7,8 @@ export const paths = {
   worldPath,
   worldGameFile: `${worldPath}/${gameFile}`,
   worldOkFile: `${worldPath}/${okFile}`,
+  prettierFile: `${stagesPath}/.prettierrc`,
   stagesPath,
-  stages: {
-    root: stagesPath,
-  },
   okFile,
   gameFile,
 }
