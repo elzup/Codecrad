@@ -6,7 +6,9 @@
   "main": "dist/index.js",
   "repository": "elzup/codecrad",
   "author": "elzup <guild0105@gmail.com> (elzup.com)",
-  "bin": "dist/cli.js",
+  "bin": {
+    "codecrad": "dist/cli.js"
+  },
   "engines": {
     "node": ">=8"
   },
