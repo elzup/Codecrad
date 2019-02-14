@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as meow from 'meow'
 import codecrad from '.'
 
