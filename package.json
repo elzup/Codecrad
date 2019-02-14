@@ -1,6 +1,6 @@
 {
   "name": "codecrad",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Coding game RTA",
   "license": "MIT",
   "main": "dist/index.js",
