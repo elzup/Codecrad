@@ -14,7 +14,7 @@
   },
   "scripts": {
     "cli": "ts-node src/cli.ts",
-    "build": "tsc",
+    "build": "tsc && cp -r stages dist/",
     "deploy": "npm run build && np",
     "add-contributor": "all-contributors add",
     "precommit": "lint-staged",
@@ -29,8 +29,7 @@
     ]
   },
   "files": [
-    "dist",
-    "stages"
+    "dist"
   ],
   "keywords": [
     "cli-app",
