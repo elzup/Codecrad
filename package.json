@@ -1,6 +1,6 @@
 {
   "name": "codecrad",
-  "version": "0.0.10",
+  "version": "1.0.0",
   "description": "Coding game speedrun",
   "license": "MIT",
   "main": "dist/index.js",
