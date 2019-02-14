@@ -1,12 +1,5 @@
-// Type definitions for ink 0.5
-// Project: https://github.com/vadimdemedes/ink#readme
-// Definitions by: Carlos Precioso <https://github.com/cprecioso>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 2.8
-
-/// <reference types="node" />
-
 declare module 'ink' {
+  import { Stream } from 'stream'
   import {
     ReactNode,
     ReactComponentElement,
@@ -14,7 +7,14 @@ declare module 'ink' {
     ComponentType,
   } from 'react'
   export function h(...args: any[]): any
-  export function render(vdom: ReactNode): void
+  export function render(
+    vdom: ReactNode,
+    options?: {
+      stdout?: Stream
+      stdin?: Stream
+      debug?: boolean
+    }
+  ): void
 
   export const Fragment: ComponentType
 
