@@ -15,7 +15,7 @@
   "scripts": {
     "cli": "ts-node src/cli.ts",
     "build": "tsc && cp -r src/stages dist/ && cp .prettierrc dist",
-    "deploy": "npm run build && np",
+    "deploy": "yarn run build && np",
     "add-contributor": "all-contributors add",
     "precommit": "lint-staged",
     "lint": "tslint",
