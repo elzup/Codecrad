@@ -1,6 +1,6 @@
 const okFile = 'ok.js'
 const gameFile = 'game.js'
-const stagesPath = __dirname + '/stages'
+const stagesPath = __dirname + '/../stages'
 const worldPath = 'world'
 
 export const paths = {
