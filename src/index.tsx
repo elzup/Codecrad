@@ -11,5 +11,5 @@ type Option = {
 }
 
 export default async (options?: Option) => {
-  render(<App stage={paths.stages.fizzbuzz.id} />, { ...options })
+  render(<App stage={'fizzbuzz'} />, { ...options })
 }

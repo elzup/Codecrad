@@ -1,8 +1,7 @@
 const okFile = 'ok.js'
 const gameFile = 'game.js'
-const stagesPath = 'stages'
+const stagesPath = __dirname + '/stages'
 const worldPath = 'world'
-const fizzbuzz = 'fizzbuzz'
 
 export const paths = {
   worldPath,
@@ -11,10 +10,6 @@ export const paths = {
   stagesPath,
   stages: {
     root: stagesPath,
-    fizzbuzz: {
-      id: fizzbuzz,
-      path: `${stagesPath}/${fizzbuzz}`,
-    },
   },
   okFile,
   gameFile,
