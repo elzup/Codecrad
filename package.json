@@ -27,7 +27,8 @@
     ]
   },
   "files": [
-    "dist"
+    "dist",
+    "stages"
   ],
   "keywords": [
     "cli-app",

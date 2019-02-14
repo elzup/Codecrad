@@ -3,16 +3,14 @@ import codecrad from '.'
 
 const cli = meow(`
 	Usage
-	  $ codecrad [input]
+	  $ codecrad
 
 	Options
 	  --foo  Lorem ipsum [Default: false]
 
 	Examples
 	  $ codecrad
-	  unicorns & rainbows
-	  $ codecrad ponies
-	  ponies & rainbows
+	  // TODO: play start
 `)
 
 codecrad()
