@@ -8,6 +8,8 @@ import { read } from '../utils'
 import { paths } from '../config'
 const { worldGameFile, worldOkFile, worldPath } = paths
 
+const { useContext, useEffect, useReducer, createContext } = React
+
 type Props = {
   stage: string
 }
@@ -26,24 +28,76 @@ type GameState =
       process: 'finish'
       time: number
     }
-type State = {
-  game: GameState
+type State = GameState
+
+const initialState: State = {
+  process: 'init',
 }
 
-class App extends React.Component<Props, State> {
-  timer = null as ReturnType<typeof setInterval> | null
-  watcher = null as chokidar.FSWatcher | null
-  state = {
-    game: {
-      process: 'init',
-    } as GameState,
+type StartAction = {
+  type: 'start'
+  payload: {
+    startTime: number
+    gameText: string
+    okText: string
+    diffs: Change[]
   }
+}
 
-  componentDidMount() {
-    this.initialize()
+type UpdateDiffAction = {
+  type: 'updateDiff'
+  payload: {
+    gameText: string
+    diffs: Change[]
   }
-  async initialize() {
-    const { stage } = this.props
+}
+
+type FinishAction = {
+  type: 'finish'
+  payload: {
+    time: number
+  }
+}
+
+type Action = StartAction | UpdateDiffAction | FinishAction
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'start': {
+      return { process: 'play', ...action.payload }
+    }
+    case 'updateDiff': {
+      return { ...state, ...action.payload }
+    }
+    case 'finish': {
+      return { process: 'finish', time: action.payload.time }
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+const StateContext = createContext<State>(null as any)
+const DispatchContext = createContext<React.Dispatch<Action>>(null as any)
+
+const App: React.SFC<Props> = props => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  return (
+    <StateContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        <Game {...props} />
+      </DispatchContext.Provider>
+    </StateContext.Provider>
+  )
+}
+
+const Game: React.SFC<Props> = props => {
+  const game = useContext(StateContext)
+  const dispatch = useContext(DispatchContext)
+  useEffect(() => {
+    const { stage } = props
     const sourceStagePath = paths.stagesPath + '/' + stage
     fs.removeSync(worldPath)
     fs.copySync(sourceStagePath, worldPath)
@@ -51,69 +105,71 @@ class App extends React.Component<Props, State> {
     const gameText = read(worldGameFile)
     const okText = read(worldOkFile)
     const diffs = diffLines(gameText, okText)
-    this.setState({
-      game: { process: 'play', startTime: Date.now(), gameText, okText, diffs },
+    dispatch({
+      type: 'start',
+      payload: {
+        startTime: Date.now(),
+        gameText,
+        okText,
+        diffs,
+      },
     })
 
-    this.watcher = chokidar.watch(worldGameFile, { persistent: true })
-    this.watcher.on('all', (event, path) => {
-      const { game } = this.state
+    const watcher = chokidar.watch(worldGameFile, { persistent: true })
+    watcher.on('all', (event, path) => {
       if (game.process !== 'play') {
         return
       }
       const gameText = read(worldGameFile)
       const diffs = diffLines(gameText, okText)
       if (diffs.length > 1) {
-        this.setState({
-          game: { ...game, gameText, okText, diffs },
+        dispatch({
+          type: 'updateDiff',
+          payload: {
+            gameText,
+            diffs,
+          },
         })
       } else {
-        clearInterval(this.timer!)
         const time = Date.now() - game.startTime
-        this.setState({
-          game: { process: 'finish', time },
+        dispatch({
+          type: 'finish',
+          payload: { time },
         })
       }
     })
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer!)
-    if (this.watcher) {
-      this.watcher.close()
+    return () => {
+      watcher.close()
     }
-  }
+  })
 
-  render() {
-    const { game } = this.state
-    switch (game.process) {
-      case 'init':
-        return <Color green>loading ...</Color>
-      case 'play':
-        const { diffs } = game
-        return (
+  switch (game.process) {
+    case 'init':
+      return <Color green>loading ...</Color>
+    case 'play':
+      const { diffs } = game
+      return (
+        <div>
+          <div>--------------------</div>
+          <div>{worldGameFile}</div>
+          <div>--------------------</div>
+          <DiffView changes={diffs} />
+        </div>
+      )
+    case 'finish':
+      return (
+        <div>
           <div>
-            <div>--------------------</div>
-            <div>{worldGameFile}</div>
-            <div>--------------------</div>
-            <DiffView changes={diffs} />
+            <Color white>Finish</Color>
           </div>
-        )
-      case 'finish':
-        return (
           <div>
-            <div>
-              <Color white>Finish</Color>
-            </div>
-            <div>
-              <Color green>Time: {toSecondTime(game.time)}</Color>
-            </div>
-            <div>
-              <Color white>gg!</Color>
-            </div>
+            <Color green>Time: {toSecondTime(game.time)}</Color>
           </div>
-        )
-    }
+          <div>
+            <Color white>gg!</Color>
+          </div>
+        </div>
+      )
   }
 }
 
