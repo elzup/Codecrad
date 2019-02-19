@@ -55,7 +55,7 @@ type UpdateDiffAction = {
 type FinishAction = {
   type: 'finish'
   payload: {
-    time: number
+    endTime: number
   }
 }
 
@@ -70,7 +70,13 @@ function reducer(state: State, action: Action): State {
       return { ...state, ...action.payload }
     }
     case 'finish': {
-      return { process: 'finish', time: action.payload.time }
+      if (state.process !== 'play') {
+        return state // unreach
+      }
+      return {
+        process: 'finish',
+        time: action.payload.endTime - state.startTime,
+      }
     }
     default: {
       return state
@@ -117,9 +123,6 @@ const Game: React.SFC<Props> = props => {
 
     const watcher = chokidar.watch(worldGameFile, { persistent: true })
     watcher.on('all', (event, path) => {
-      if (game.process !== 'play') {
-        return
-      }
       const gameText = read(worldGameFile)
       const diffs = diffLines(gameText, okText)
       if (diffs.length > 1) {
@@ -131,17 +134,17 @@ const Game: React.SFC<Props> = props => {
           },
         })
       } else {
-        const time = Date.now() - game.startTime
+        watcher.close()
         dispatch({
           type: 'finish',
-          payload: { time },
+          payload: {
+            endTime: Date.now(),
+          },
         })
       }
     })
-    return () => {
-      watcher.close()
-    }
-  })
+    return () => {}
+  }, [])
 
   switch (game.process) {
     case 'init':
