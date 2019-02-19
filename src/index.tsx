@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { render } from 'ink'
-import App from './components/App'
+import App from './containers/Game'
 import { paths } from './config'
 import { Stream } from 'stream'
 
