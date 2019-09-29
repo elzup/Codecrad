@@ -40,7 +40,7 @@
   ],
   "dependencies": {
     "chalk": "^2.4.2",
-    "chokidar": "^2.0.4",
+    "chokidar": "^3.0.0",
     "diff": "^4.0.1",
     "fs-extra": "^7.0.1",
     "ink": "^2.0.0-12",
