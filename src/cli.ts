@@ -2,7 +2,7 @@
 import * as meow from 'meow'
 import codecrad from '.'
 
-const cli = meow(`
+meow(`
 	Usage
 	  $ codecrad
 
