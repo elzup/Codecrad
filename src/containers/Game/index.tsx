@@ -51,8 +51,10 @@ function Game({ stage, exit }: Props) {
     const diffs = diffLines(gameText, okText)
 
     start({ startTime: Date.now(), gameText, okText, diffs })
-
-    const watcher = chokidar.watch(worldGameFile)
+    const watcher = chokidar.watch(worldGameFile, { ignoreInitial: true })
+    const close = () => {
+      watcher.close()
+    }
 
     watcher.on('all', () => {
       const gameText = read(worldGameFile)
@@ -62,10 +64,13 @@ function Game({ stage, exit }: Props) {
         updateDiff({ gameText, diffs })
       } else {
         finish(Date.now())
+        close()
         exit()
       }
     })
-    return () => {}
+    return () => {
+      close()
+    }
   }, [])
 
   switch (game.process) {
