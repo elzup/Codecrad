@@ -1,19 +1,17 @@
 import * as React from 'react'
-
-import { Color } from 'ink'
 import { diffLines } from 'diff'
+import { Color } from 'ink'
 import * as fs from 'fs-extra'
 import * as chokidar from 'chokidar'
 import { read } from '../../utils'
 import { paths } from '../../config'
-import { GameProcess } from '../../types'
+import { GameProcess, GameFields } from '../../types'
 import GamePlayScreen from './components/GamePlayScreen'
 import GameFinishScreen from './components/GameFinishScreen'
-import { reducer } from './reducer'
-import { Action } from './actions'
+
 const { worldGameFile, worldOkFile, worldPath } = paths
 
-const { useContext, useEffect, useReducer, createContext } = React
+const { useEffect } = React
 
 type Props = {
   stage: string
@@ -24,63 +22,44 @@ const initialState: State = {
   process: 'init',
 }
 
-const StateContext = createContext<State>(null as any)
-const DispatchContext = createContext<React.Dispatch<Action>>(null as any)
+function Game({ stage }: Props) {
+  const [game, setGame] = React.useState<State>(initialState)
 
-const App: React.SFC<Props> = props => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const start = (fields: GameFields) => setGame({ process: 'play', ...fields })
 
-  return (
-    <StateContext.Provider value={state}>
-      <DispatchContext.Provider value={dispatch}>
-        <Game {...props} />
-      </DispatchContext.Provider>
-    </StateContext.Provider>
-  )
-}
+  const finish = (endTime: number) => {
+    if (game.process !== 'play') {
+      return
+    }
+    setGame({ process: 'finish', time: endTime - game.startTime })
+  }
 
-const Game: React.SFC<Props> = props => {
-  const game = useContext(StateContext)
-  const dispatch = useContext(DispatchContext)
+  const updateDiff = (fields: Pick<GameFields, 'gameText' | 'diffs'>) =>
+    setGame({ ...game, ...fields })
+
   useEffect(() => {
-    const { stage } = props
     const sourceStagePath = paths.stagesPath + '/' + stage
+
     fs.removeSync(worldPath)
     fs.copySync(sourceStagePath, worldPath)
     fs.copySync(paths.prettierFile, worldPath + '/' + '.prettierrc')
     const gameText = read(worldGameFile)
     const okText = read(worldOkFile)
     const diffs = diffLines(gameText, okText)
-    dispatch({
-      type: 'start',
-      payload: {
-        startTime: Date.now(),
-        gameText,
-        okText,
-        diffs,
-      },
-    })
+
+    start({ startTime: Date.now(), gameText, okText, diffs })
 
     const watcher = chokidar.watch(worldGameFile, { persistent: true })
-    watcher.on('all', (event, path) => {
+
+    watcher.on('all', () => {
       const gameText = read(worldGameFile)
       const diffs = diffLines(gameText, okText)
+
       if (diffs.length > 1) {
-        dispatch({
-          type: 'updateDiff',
-          payload: {
-            gameText,
-            diffs,
-          },
-        })
+        updateDiff({ gameText, diffs })
       } else {
         watcher.close()
-        dispatch({
-          type: 'finish',
-          payload: {
-            endTime: Date.now(),
-          },
-        })
+        finish(Date.now())
       }
     })
     return () => {
@@ -95,7 +74,9 @@ const Game: React.SFC<Props> = props => {
       return <GamePlayScreen game={game} filePath={worldGameFile} />
     case 'finish':
       return <GameFinishScreen game={game} />
+    default:
+      return null
   }
 }
 
-export default App
+export default Game

@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended"],
+  "extends": ["nzap", "nzap/react", "nzap/jest", "nzap/typescript"],
   "rules": {
     "no-console": 0
   },

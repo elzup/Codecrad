@@ -1,11 +1,16 @@
 import * as React from 'react'
-import { GameProcessFinish } from '../../../types'
 import { Color } from 'ink'
+import { GameProcessFinish } from '../../../types'
+
+const toSecondTime = (time: number): string => {
+  return `${Math.floor(time / 1000)}.${time % 1000}`
+}
 
 const GameFinishScreen: React.SFC<{
   game: GameProcessFinish
 }> = props => {
   const { game } = props
+
   return (
     <div>
       <div>
@@ -19,9 +24,6 @@ const GameFinishScreen: React.SFC<{
       </div>
     </div>
   )
-}
-const toSecondTime = (time: number): string => {
-  return `${Math.floor(time / 1000)}.${time % 1000}`
 }
 
 export default GameFinishScreen

@@ -6,10 +6,10 @@ import { paths } from './config'
 import { Stream } from 'stream'
 
 type Option = {
-  stdin?: Stream
-  stdout?: Stream
+  stdin?: any
+  stdout?: any
 }
 
-export default async (options?: Option) => {
-  render(<App stage={'fizzbuzz'} />, { ...options })
+export default (options?: Option) => {
+  return render(<App stage={'fizzbuzz'} />, { ...options })
 }

@@ -1,17 +1,19 @@
-import { Change, diffLines } from 'diff'
+import { Change } from 'diff'
 
-export type GameProcessInit = {
-  process: 'init'
+export type GameProcessInit = { readonly process: 'init' }
+
+export type GameFields = {
+  readonly startTime: number
+  readonly gameText: string
+  readonly okText: string
+  readonly diffs: Change[]
 }
 export type GameProcessPlay = {
-  process: 'play'
-  startTime: number
-  gameText: string
-  okText: string
-  diffs: Change[]
-}
+  readonly process: 'play'
+} & GameFields
+
 export type GameProcessFinish = {
-  process: 'finish'
-  time: number
+  readonly process: 'finish'
+  readonly time: number
 }
 export type GameProcess = GameProcessInit | GameProcessPlay | GameProcessFinish

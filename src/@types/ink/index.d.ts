@@ -1,3 +1,4 @@
+declare module 'ink/build/render-to-string'
 declare module 'ink' {
   import { Stream } from 'stream'
   import {
@@ -6,12 +7,13 @@ declare module 'ink' {
     Component,
     ComponentType,
   } from 'react'
-  export function h(...args: any[]): any
+
+  export function h(...args: unknown[]): unknown
   export function render(
     vdom: ReactNode,
     options?: {
-      stdout?: Stream
-      stdin?: Stream
+      stdout?: unknown
+      stdin?: unknown
       debug?: boolean
     }
   ): void

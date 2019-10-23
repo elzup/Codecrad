@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { GameProcessPlay } from '../../../types'
 import { Change } from 'diff'
 import { Color } from 'ink'
+import { GameProcessPlay } from '../../../types'
 
 const GamePlayScreen: React.SFC<{
   game: GameProcessPlay
@@ -23,6 +23,7 @@ const DiffView: React.SFC<{ changes: Change[] }> = props => {
       <div>
         {props.changes.map((change, i) => {
           const color = change.added ? 'green' : change.removed ? 'red' : 'gray'
+
           return (
             <Color key={i} keyword={color}>
               {change.value}
