@@ -2,12 +2,10 @@ import * as React from 'react'
 
 import { render } from 'ink'
 import App from './containers/Game'
-import { paths } from './config'
-import { Stream } from 'stream'
 
 type Option = {
-  stdin?: any
-  stdout?: any
+  stdin?: unknown
+  stdout?: unknown
 }
 
 export default (options?: Option) => {

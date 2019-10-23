@@ -28,14 +28,16 @@ function Game({ stage }: Props) {
   const start = (fields: GameFields) => setGame({ process: 'play', ...fields })
 
   const finish = (endTime: number) => {
-    if (game.process !== 'play') {
-      return
-    }
-    setGame({ process: 'finish', time: endTime - game.startTime })
+    setGame(state => {
+      if (state.process !== 'play') {
+        throw new Error()
+      }
+      return { process: 'finish', time: endTime - state.startTime }
+    })
   }
 
   const updateDiff = (fields: Pick<GameFields, 'gameText' | 'diffs'>) =>
-    setGame({ ...game, ...fields })
+    setGame(state => ({ ...state, ...fields }))
 
   useEffect(() => {
     const sourceStagePath = paths.stagesPath + '/' + stage
@@ -49,7 +51,7 @@ function Game({ stage }: Props) {
 
     start({ startTime: Date.now(), gameText, okText, diffs })
 
-    const watcher = chokidar.watch(worldGameFile, { persistent: true })
+    const watcher = chokidar.watch(worldGameFile)
 
     watcher.on('all', () => {
       const gameText = read(worldGameFile)
@@ -58,13 +60,10 @@ function Game({ stage }: Props) {
       if (diffs.length > 1) {
         updateDiff({ gameText, diffs })
       } else {
-        watcher.close()
         finish(Date.now())
       }
     })
-    return () => {
-      watcher.close()
-    }
+    return () => {}
   }, [])
 
   switch (game.process) {
