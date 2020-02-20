@@ -1,11 +1,8 @@
+# Codecrad ![Node.js CI](https://github.com/elzup/Codecrad/workflows/Node.js%20CI/badge.svg)
+
 ![codecrad](https://user-images.githubusercontent.com/2284908/52775708-a5adf180-3083-11e9-8d17-1ee59850cc3f.gif)
 
 
-# Codecrad
-
-[![Build Status](https://travis-ci.org/elzup/codecrad.svg?branch=master)](https://travis-ci.org/elzup/codecrad)
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 > Coding game RTA
 
