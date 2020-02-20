@@ -1,7 +1,8 @@
 {
   "extends": ["nzap", "nzap/react", "nzap/jest", "nzap/typescript"],
   "rules": {
-    "no-console": 0
+    "no-console": 0,
+    "@typescript-eslint/no-empty-function": 0
   },
   "env": {
     "es6": true

@@ -15,7 +15,7 @@ const { useEffect } = React
 
 type Props = {
   stage: string
-  exit: (error?: Error | undefined) => void
+  exit?: (error?: Error | undefined) => void
 }
 type State = GameProcess
 
@@ -23,7 +23,7 @@ const initialState: State = {
   process: 'init',
 }
 
-function Game({ stage, exit }: Props) {
+function Game({ stage, exit = () => {} }: Props) {
   const [game, setGame] = React.useState<State>(initialState)
 
   const start = (fields: GameFields) => setGame({ process: 'play', ...fields })
