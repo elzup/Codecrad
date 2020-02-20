@@ -10,7 +10,7 @@
     "codecrad": "dist/cli.js"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "scripts": {
     "cli": "ts-node src/cli.ts",
