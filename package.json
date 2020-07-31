@@ -65,7 +65,7 @@
     "ink-testing-library": "1.0.3",
     "jest": "25.5.4",
     "lint-staged": "10.2.11",
-    "prettier": "1.19.1",
+    "prettier": "2.0.5",
     "sinon": "9.0.2",
     "strip-ansi": "6.0.0",
     "ts-jest": "25.5.1",
