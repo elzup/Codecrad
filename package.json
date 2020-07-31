@@ -45,7 +45,7 @@
     "diff": "^4.0.2",
     "fs-extra": "^8.1.0",
     "ink": "^2.7.1",
-    "meow": "^6.0.1",
+    "meow": "^7.0.0",
     "react": "^16.12.0"
   },
   "devDependencies": {
