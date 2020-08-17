@@ -1,5 +1,5 @@
-const fizzBuzz = n =>
-  [...Array(n).keys()].map(i => {
+const fizzBuzz = (n) =>
+  [...Array(n).keys()].map((i) => {
     if (i % 15 === 0) {
       return 'FizzBuzz'
     }

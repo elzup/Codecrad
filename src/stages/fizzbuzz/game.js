@@ -1,6 +1,6 @@
 // delete me
-const fizzBuzz = n =>
-  [...Array(n).keys()].map(i => {
+const fizzBuzz = (n) =>
+  [...Array(n).keys()].map((i) => {
     if (i % 3 == 0) {
       return 'Fizz'
     }

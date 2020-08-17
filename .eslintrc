@@ -1,5 +1,5 @@
 {
-  "extends": ["nzap", "nzap/react", "nzap/jest", "nzap/typescript"],
+  "extends": ["nzap", "nzap/tsx", "nzap/jest"],
   "rules": {
     "no-console": 0,
     "@typescript-eslint/no-empty-function": 0

@@ -1,37 +1,37 @@
 import * as React from 'react'
 import { Change } from 'diff'
-import { Color } from 'ink'
+import { Box, Text } from 'ink'
 import { GameProcessPlay } from '../../../types'
 
 const GamePlayScreen: React.SFC<{
   game: GameProcessPlay
   filePath: string
-}> = props => {
+}> = (props) => {
   return (
-    <div>
-      <div>--------------------</div>
-      <div>{props.filePath}</div>
-      <div>--------------------</div>
+    <Box flexDirection="column">
+      <Text>--------------------</Text>
+      <Text>{props.filePath}</Text>
+      <Text>--------------------</Text>
       <DiffView changes={props.game.diffs} />
-    </div>
+    </Box>
   )
 }
 
-const DiffView: React.SFC<{ changes: Change[] }> = props => {
-  return (
-    <div>
-      <div>
-        {props.changes.map((change, i) => {
-          const color = change.added ? 'green' : change.removed ? 'red' : 'gray'
+const trimLine = (text: string) => text.replace(/^\n*|\n*$/g, '')
 
-          return (
-            <Color key={i} keyword={color}>
-              {change.value}
-            </Color>
-          )
-        })}
-      </div>
-    </div>
+const DiffView: React.SFC<{ changes: Change[] }> = (props) => {
+  return (
+    <Box flexDirection="column">
+      {props.changes.map((change, i) => {
+        const color = change.added ? 'green' : change.removed ? 'red' : 'gray'
+
+        return (
+          <Text key={i} color={color}>
+            {trimLine(change.value)}
+          </Text>
+        )
+      })}
+    </Box>
   )
 }
 

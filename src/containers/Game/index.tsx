@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { diffLines } from 'diff'
-import { Color } from 'ink'
+import { Text, useApp } from 'ink'
 import * as fs from 'fs-extra'
 import * as chokidar from 'chokidar'
 import { read } from '../../utils'
@@ -15,7 +15,6 @@ const { useEffect } = React
 
 type Props = {
   stage: string
-  exit?: (error?: Error | undefined) => void
 }
 type State = GameProcess
 
@@ -23,13 +22,14 @@ const initialState: State = {
   process: 'init',
 }
 
-function Game({ stage, exit = () => {} }: Props) {
+function Game({ stage }: Props) {
+  const { exit } = useApp()
   const [game, setGame] = React.useState<State>(initialState)
 
   const start = (fields: GameFields) => setGame({ process: 'play', ...fields })
 
   const finish = (endTime: number) => {
-    setGame(state => {
+    setGame((state) => {
       if (state.process !== 'play') {
         throw new Error()
       }
@@ -38,7 +38,7 @@ function Game({ stage, exit = () => {} }: Props) {
   }
 
   const updateDiff = (fields: Pick<GameFields, 'gameText' | 'diffs'>) =>
-    setGame(state => ({ ...state, ...fields }))
+    setGame((state) => ({ ...state, ...fields }))
 
   useEffect(() => {
     const sourceStagePath = paths.stagesPath + '/' + stage
@@ -75,7 +75,7 @@ function Game({ stage, exit = () => {} }: Props) {
 
   switch (game.process) {
     case 'init':
-      return <Color green>loading ...</Color>
+      return <Text color="green">loading ...</Text>
     case 'play':
       return <GamePlayScreen game={game} filePath={worldGameFile} />
     case 'finish':
