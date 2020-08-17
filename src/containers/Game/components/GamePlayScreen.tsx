@@ -3,14 +3,11 @@ import { Change } from 'diff'
 import { Box, Text } from 'ink'
 import { GameProcessPlay } from '../../../types'
 
-const GamePlayScreen: React.SFC<{
-  game: GameProcessPlay
-  filePath: string
-}> = (props) => {
+const GamePlayScreen = (props: { game: GameProcessPlay; filePath: string }) => {
   return (
     <Box flexDirection="column">
       <Text>--------------------</Text>
-      <Text>{props.filePath}</Text>
+      <Text>./{props.filePath}</Text>
       <Text>--------------------</Text>
       <DiffView changes={props.game.diffs} />
     </Box>
@@ -19,7 +16,7 @@ const GamePlayScreen: React.SFC<{
 
 const trimLine = (text: string) => text.replace(/^\n*|\n*$/g, '')
 
-const DiffView: React.SFC<{ changes: Change[] }> = (props) => {
+const DiffView = (props: { changes: Change[] }) => {
   return (
     <Box flexDirection="column">
       {props.changes.map((change, i) => {

@@ -1,10 +1,19 @@
-import * as React from 'react'
 import { render } from 'ink-testing-library'
+import * as React from 'react'
 import App from '../containers/Game'
 
-test('simple', () => {
-  const { lastFrame, unmount } = render(<App stage={'fizzbuzz'} />)
+const sleep = (msec: number) =>
+  new Promise((resolve) => setTimeout(resolve, msec))
 
-  expect(lastFrame()).toMatchInlineSnapshot(`"loading ..."`)
+test('simple', async () => {
+  const { lastFrame, unmount, cleanup, rerender } = render(
+    <App stage={'fizzbuzz'} />
+  )
+
+  expect(lastFrame()).toMatchInlineSnapshot(`"[32mloading ...[39m"`)
+  rerender(<App stage={'fizzbuzz'} stop />)
+  await sleep(2000)
   unmount()
+  cleanup()
+  await sleep(2000)
 })

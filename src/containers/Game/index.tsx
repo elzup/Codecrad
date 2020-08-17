@@ -15,6 +15,7 @@ const { useEffect } = React
 
 type Props = {
   stage: string
+  stop?: boolean
 }
 type State = GameProcess
 
@@ -22,9 +23,13 @@ const initialState: State = {
   process: 'init',
 }
 
-function Game({ stage }: Props) {
+function Game({ stage, stop }: Props) {
   const { exit } = useApp()
   const [game, setGame] = React.useState<State>(initialState)
+
+  useEffect(() => {
+    if (stop) exit()
+  }, [stop])
 
   const start = (fields: GameFields) => setGame({ process: 'play', ...fields })
 
