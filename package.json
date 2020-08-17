@@ -19,7 +19,7 @@
     "add-contributor": "all-contributors add",
     "precommit": "lint-staged",
     "lint": "eslint --ext .ts,.tsx src",
-    "test": "jest src --detectOpenHandles",
+    "test": "jest src --detectOpenHandles --no-color",
     "test:cov": "jest src --coverage --ci --runInBand"
   },
   "lint-staged": {

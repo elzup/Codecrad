@@ -10,9 +10,8 @@ test('simple', async () => {
     <App stage={'fizzbuzz'} />
   )
 
-  expect(lastFrame()).toMatchInlineSnapshot(`"[32mloading ...[39m"`)
+  expect(lastFrame()).toMatchInlineSnapshot(`"loading ..."`)
   rerender(<App stage={'fizzbuzz'} stop />)
-  await sleep(2000)
   unmount()
   cleanup()
   await sleep(2000)
