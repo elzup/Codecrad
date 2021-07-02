@@ -20,7 +20,8 @@
     "precommit": "lint-staged",
     "lint": "eslint --ext .ts,.tsx src",
     "test": "jest src --detectOpenHandles --no-color",
-    "test:cov": "jest src --coverage --ci --runInBand"
+    "test:cov": "jest src --coverage --ci --runInBand",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,md}": [
@@ -40,13 +41,13 @@
     "game"
   ],
   "dependencies": {
-    "chalk": "^4.1.0",
-    "chokidar": "^3.4.2",
-    "diff": "^4.0.2",
-    "fs-extra": "^9.0.1",
+    "chalk": "^4.1.1",
+    "chokidar": "^3.5.2",
+    "diff": "^5.0.0",
+    "fs-extra": "^10.0.0",
     "ink": "^3.0.5",
-    "meow": "^7.1.1",
-    "react": "^16.12.0"
+    "meow": "^10.0.1",
+    "react": "^17.0.2"
   },
   "devDependencies": {
     "@types/chalk": "2.2.0",
@@ -54,22 +55,22 @@
     "@types/diff": "5.0.0",
     "@types/fs-extra": "9.0.11",
     "@types/jest": "26.0.23",
-    "@types/meow": "5.0.0",
-    "@types/node": "14.17.4",
-    "@types/react": "17.0.11",
+    "@types/meow": "6.0.0",
+    "@types/node": "15.14.0",
+    "@types/react": "17.0.13",
     "@types/sinon": "10.0.2",
     "all-contributors-cli": "6.20.0",
     "eslint": "7.29.0",
     "eslint-config-nzap": "4.3.1",
-    "husky": "4.3.8",
+    "husky": "^7.0.0",
     "ink-testing-library": "2.1.0",
-    "jest": "26.6.3",
-    "lint-staged": "10.5.4",
+    "jest": "27.0.6",
+    "lint-staged": "11.0.0",
     "prettier": "2.3.2",
-    "sinon": "9.2.4",
-    "strip-ansi": "6.0.0",
-    "ts-jest": "26.5.6",
-    "ts-node": "9.1.1",
-    "typescript": "4.3.4"
+    "sinon": "11.1.1",
+    "strip-ansi": "7.0.0",
+    "ts-jest": "27.0.3",
+    "ts-node": "10.0.0",
+    "typescript": "4.3.5"
   }
 }
