@@ -1,16 +1,22 @@
 {
+  "extends": "@sindresorhus/tsconfig",
   "compilerOptions": {
-    "target": "es2017",
     "module": "commonjs",
-    "lib": ["es2017", "dom"],
-    "jsx": "react",
-    "strict": true,
-    "importHelpers": false,
-    "noEmitHelpers": true,
-    "outDir": "dist",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "typeRoots": ["src/@types", "node_modules/@types"]
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true,
+    "lib": ["ES2020", "DOM", "dom.iterable", "esnext"],
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "outDir": "dist"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "**/*.test.ts"]
 }

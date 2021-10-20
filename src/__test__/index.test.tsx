@@ -1,5 +1,5 @@
 import { render } from 'ink-testing-library'
-import * as React from 'react'
+import React from 'react'
 import App from '../containers/Game'
 
 const sleep = (msec: number) =>
