@@ -7,7 +7,7 @@ fn('fun')
 
 fn(200)
 const me = 0
-fn('embed me')
+fn(`embed ${me}`)
 fn("'a', 'b', 'c'")
 fn(['a', 'b', 'c'])
 
