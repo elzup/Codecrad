@@ -14,16 +14,18 @@ const GamePlayScreen = (props: { game: GameProcessPlay; filePath: string }) => {
   )
 }
 
-const trimLine = (text: string) => text.replace(/^\n*|\n*$/g, '')
+const trimLine = (text: string) => text
 
 const DiffView = (props: { changes: Change[] }) => {
   return (
     <Box flexDirection="column">
       {props.changes.map((change, i) => {
         const color = change.added ? 'green' : change.removed ? 'red' : 'gray'
+        const head = change.added ? '+' : change.removed ? '-' : ' '
 
         return (
           <Text key={i} color={color}>
+            {head}
             {trimLine(change.value)}
           </Text>
         )

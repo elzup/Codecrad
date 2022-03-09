@@ -58,7 +58,7 @@ function Game({ stage }: Props) {
 
     watcher.on('all', () => {
       const gameText = read(worldGameFile)
-      const diffs = diffLines(gameText, okText)
+      const diffs = diffLines(gameText, okText, { newlineIsToken: true })
 
       if (diffs.length > 1) {
         updateDiff({ gameText, diffs })
