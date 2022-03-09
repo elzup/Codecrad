@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // import meow from 'meow'
 import codecrad from '.'
 
@@ -13,5 +12,8 @@ import codecrad from '.'
 // 	  $ codecrad
 // 	  // TODO: play start
 // `)
+const [_1, _2, key = 'fizzbuzz'] = process.argv
 
-codecrad()
+codecrad(key)
+
+export {}
