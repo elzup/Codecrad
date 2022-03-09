@@ -1,13 +1,27 @@
-module.exports = {
-  roots: ['src'],
+const config = {
+  testEnvironment: 'jsdom',
+
+  testMatch: ['**/*.test.js', '**/*.test.ts', '**/*.test.tsx'],
+  setupFilesAfterEnv: [],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
+  transformIgnorePatterns: ['/node_modules/'],
+
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '.+\\.(t|j)sx?$': [
+      '@swc/jest',
+      {
+        sourceMaps: true,
+        module: { type: 'commonjs' },
+        jsc: {
+          parser: { syntax: 'typescript', tsx: true },
+          transform: { react: { runtime: 'automatic' } },
+        },
+      },
+    ],
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   globals: {
-    'ts-jest': {
-      diagnostics: { warnOnly: true },
-    },
+    'ts-jest': { tsconfig: './tsconfig.json' },
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 }
+
+module.exports = config

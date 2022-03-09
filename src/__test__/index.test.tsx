@@ -8,7 +8,7 @@ const sleep = (msec: number) =>
 test('simple', async () => {
   const { lastFrame, unmount, cleanup } = render(<App stage={'fizzbuzz'} />)
 
-  expect(lastFrame()).toMatchInlineSnapshot(`"loading ..."`)
+  expect(lastFrame()).toMatchInlineSnapshot(`"[32mloading ...[39m"`)
   unmount()
   cleanup()
   await sleep(2000)
