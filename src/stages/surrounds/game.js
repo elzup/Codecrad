@@ -15,3 +15,24 @@ fn('300')
 fn(() => {})
 fn(() => {})
 fn({ ok: true })
+
+// carry
+
+const trays = {
+  aTray: '',
+  bTray: '',
+  cTray: '',
+  dTray: '',
+}
+
+// A = 'lorem ipsum'
+// B = 'dolor sit amet consectetur'
+// C = 'adipisicing elit sed do eiusmod'
+// D = 'tempor incididunt ut'
+
+const statue = {}
+
+// a="lorem ipsum"
+// b="dolor sit amet consectetur"
+// c="adipisicing elit sed do eiusmod"
+// d="tempor incididunt ut"
