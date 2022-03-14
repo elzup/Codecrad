@@ -6,6 +6,7 @@ import * as chokidar from 'chokidar'
 import { read } from '../../utils'
 import { paths } from '../../config'
 import { GameProcess, GameFields } from '../../types'
+import { log } from '../../logger'
 import GamePlayScreen from './components/GamePlayScreen'
 import GameFinishScreen from './components/GameFinishScreen'
 
@@ -25,6 +26,8 @@ const initialState: State = {
 function Game({ stage }: Props) {
   const { exit } = useApp()
   const [game, setGame] = React.useState<State>(initialState)
+
+  log(`game: ${stage}`)
 
   const start = (fields: GameFields) => setGame({ process: 'play', ...fields })
 
@@ -57,6 +60,7 @@ function Game({ stage }: Props) {
     }
 
     watcher.on('all', () => {
+      log(`game: update`)
       const gameText = read(worldGameFile)
       const diffs = diffLines(gameText, okText, { newlineIsToken: true })
 
