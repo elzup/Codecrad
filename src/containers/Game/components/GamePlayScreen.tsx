@@ -8,13 +8,16 @@ const GamePlayScreen = (props: { game: GameProcessPlay; filePath: string }) => {
     <Box flexDirection="column">
       <Text>--------------------</Text>
       <Text>./{props.filePath}</Text>
-      <Text>--------------------</Text>
+      <Text>---</Text>
       <DiffView changes={props.game.diffs} />
+      <Text>---</Text>
+      <Text>./{props.filePath}</Text>
+      <Text>--------------------</Text>
     </Box>
   )
 }
 
-const trimLine = (text: string) => text
+const trimLine = (text: string) => text.replace(/^\n*|\n*$/g, '')
 
 const DiffView = (props: { changes: Change[] }) => {
   return (
