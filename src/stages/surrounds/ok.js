@@ -3,7 +3,8 @@ fn = () => {}
 
 fn(100)
 fn()
-fn('fun')
+fn(fun())
+fn('wrapMe')
 
 fn(200)
 const me = 0
