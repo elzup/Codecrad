@@ -37,3 +37,13 @@ const statue = {}
 // b="dolor sit amet consectetur"
 // c="adipisicing elit sed do eiusmod"
 // d="tempor incididunt ut"
+
+// sahve
+
+fn('bb->', 'bb->', 'delete me')
+fn('delete me', '<-cc', '<-cc')
+fn('bb->', 'bb->', 'delete me')
+fn('bb->', 'bb->', 'bb->', 'delete me')
+fn('aa->', 'delete me', '<-aa')
+fn('aa->', 'aa->', 'delete me', '<-aa')
+fn(0, 999, 1, 2, 999, 3)

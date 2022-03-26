@@ -32,3 +32,13 @@ const statue = {
   c: 'adipisicing elit sed do eiusmod',
   d: 'tempor incididunt ut',
 }
+
+// sahve
+
+fn('bb->', 'bb->')
+fn('<-cc', '<-cc')
+fn('bb->', 'bb->')
+fn('bb->', 'bb->', 'bb->')
+fn('aa->', '<-aa')
+fn('aa->', 'aa->', '<-aa')
+fn(0, 1, 2, 3)
