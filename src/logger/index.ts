@@ -7,5 +7,5 @@ export const log = (text: string) => {
   if (!existsSync(LOG_FILE)) {
     createFileSync(LOG_FILE)
   }
-  appendFileSync(LOG_FILE, text)
+  appendFileSync(LOG_FILE, text + '\n')
 }

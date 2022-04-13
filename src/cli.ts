@@ -13,10 +13,13 @@ import { log } from './logger'
 // 	  $ codecrad
 // 	  // TODO: play start
 // `)
-const [_1, _2, key = 'fizzbuzz'] = process.argv
+const [_1, _2, key] = process.argv
 
 log(`start: ${key}`)
-
-codecrad(key)
+if (!key) {
+  console.error('no key')
+} else {
+  codecrad(key)
+}
 
 export {}

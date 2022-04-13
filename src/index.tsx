@@ -1,7 +1,7 @@
 import { render } from 'ink'
 import * as React from 'react'
-import App from './containers/Game'
+import Game from './containers/Game'
 
 export default (gameKey: string) => {
-  return render(<App stage={gameKey} />)
+  return render(<Game stage={gameKey} />)
 }

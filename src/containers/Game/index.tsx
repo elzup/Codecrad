@@ -24,10 +24,9 @@ const initialState: State = {
 }
 
 function Game({ stage }: Props) {
+  log(`render app: ${stage}`)
   const { exit } = useApp()
   const [game, setGame] = React.useState<State>(initialState)
-
-  log(`game: ${stage}`)
 
   const start = (fields: GameFields) => setGame({ process: 'play', ...fields })
 
@@ -45,6 +44,8 @@ function Game({ stage }: Props) {
 
   useEffect(() => {
     const sourceStagePath = paths.stagesPath + '/' + stage
+
+    log(`load game: ${stage}`)
 
     fs.removeSync(worldPath)
     fs.copySync(sourceStagePath, worldPath)
