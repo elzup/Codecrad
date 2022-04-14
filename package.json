@@ -20,7 +20,7 @@
     "add-contributor": "all-contributors add",
     "precommit": "lint-staged",
     "lint": "eslint --ext .ts,.tsx src",
-    "test": "jest src --detectOpenHandles",
+    "test": "jest src --detectOpenHandles --colors",
     "test:cov": "jest src --coverage --ci --runInBand",
     "prepare": "husky install"
   },
