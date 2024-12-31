@@ -63,7 +63,7 @@
     "@types/node": "22.10.2",
     "@types/react": "18.3.18",
     "@types/sinon": "17.0.3",
-    "eslint": "8.57.1",
+    "eslint": "9.17.0",
     "eslint-config-nzap": "6.2.0",
     "husky": "7.0.4",
     "ink-testing-library": "2.1.0",
