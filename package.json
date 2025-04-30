@@ -51,9 +51,9 @@
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "2.0.0",
-    "@swc/core": "1.11.13",
-    "@swc/helpers": "0.5.15",
-    "@swc/jest": "0.2.37",
+    "@swc/core": "1.11.24",
+    "@swc/helpers": "0.5.17",
+    "@swc/jest": "0.2.38",
     "@types/chalk": "2.2.4",
     "@types/chokidar": "2.1.7",
     "@types/diff": "6.0.0",
