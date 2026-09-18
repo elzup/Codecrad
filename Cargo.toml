@@ -1,0 +1,17 @@
+[package]
+name = "codecrad"
+version = "1.0.0"
+description = "A coding speedrun game for your terminal"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+repository = "https://github.com/elzup/codecrad"
+
+[dependencies]
+ratatui = { version = "0.30.2", default-features = false, features = ["crossterm"] }
+similar = "3.2.0"
+
+[profile.release]
+lto = "thin"
+strip = true
+

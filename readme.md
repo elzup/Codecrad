@@ -1,48 +1,50 @@
-# Codecrad ![Node.js CI](https://github.com/elzup/Codecrad/workflows/Node.js%20CI/badge.svg)
+# Codecrad
 
-![codecrad](https://user-images.githubusercontent.com/2284908/52775708-a5adf180-3083-11e9-8d17-1ee59850cc3f.gif)
+> Coding game RTA — 好きなエディタでコードを直す、ターミナルのスピードランゲーム。
 
-> Coding game RTA
+Codecrad は課題ファイルを `world/game.js` に展開し、正解との差分と進捗、経過時間を
+Rust 製 TUI でリアルタイム表示します。Node.js は不要です。
 
-コーディング速度を競うゲームです。
+## Install
 
-作業の準備体操から連想して作ったタイムアタックゲーム(タイピングゲームのイメージ)です。
-好きなエディタでコーディングしてください。
-チェッカーが差分監視して Time を計ってくれます。
+Rust 1.88 以降が必要です。
 
-### 推奨環境
-
-- prettier: fix on Save
-- node: >=12
-- Terminal: 40 line
+```sh
+cargo install --path .
+```
 
 ## Play
 
-```
-npx codecrad
-open ./world/game.js # {Your favorite editor}
-```
+ターミナルを 2 つ使います。
 
-## development
+```sh
+# Terminal 1: TUI を開始（省略時は fizzbuzz）
+codecrad
 
-- node
-- typescript
-
-## CLI
-
-```
-$ npm install --global codecrad
+# Terminal 2: 好きなエディタで課題を開く
+$EDITOR world/game.js
 ```
 
-```
-$ codecrad --help
+ステージを指定することもできます。
 
-  Usage
-    codecrad
-
-  Options
-    --stage  TODO [Default: stage1]
+```sh
+codecrad --list
+codecrad surrounds
 ```
+
+編集内容が正解と一致するとタイマーが止まり、結果画面へ切り替わります。終了は `q` / `esc`、
+クリア後は `enter` でも閉じられます。
+
+## Development
+
+```sh
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features -- -D warnings
+cargo test --all
+cargo run -- fizzbuzz
+```
+
+ステージは `src/stages/<name>/{game.js,ok.js}` に置き、`src/stage.rs` へ登録します。
 
 ## License
 
